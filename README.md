@@ -18,7 +18,7 @@ Run using `java -jar hikvision-download-assistant.jar <options>`.
 ### Usage statement
 
 ```
-Usage: java -jar hikvision-download-assistant.jar [-hV] [-d=<tableDelimiter>] [-f=<fromTime>] [-o=<outputFormat>] [-p=<outputPassword>] [-t=<toTime>] HOST USERNAME PASSWORD
+Usage: java -jar hikvision-download-assistant.jar [-hqV] [-d=<tableDelimiter>] [-f=<fromTime>] [-o=<outputFormat>] [-p=<outputPassword>] [-t=<toTime>] [-u=<outputUsername>] HOST USERNAME PASSWORD
       HOST                 Connect to this host or IP address to perform search.
       USERNAME             Use this username when connecting to perform search.
       PASSWORD             Use this password when connecting to perform search.
@@ -33,6 +33,8 @@ Usage: java -jar hikvision-download-assistant.jar [-hV] [-d=<tableDelimiter>] [-
                            Output a different password in the printed curl commands, e.g. '$PASSWORD'.
   -q, --quiet              Suppress header and footer.
   -t, --to-time=<toTime>   Search up to this time, entered using English natural language. Defaults to 'now'.
+  -u, --output-username=<outputUsername>
+                           Output a different username in the printed curl commands, e.g. '$USERNAME'.
   -V, --version            Print version information and exit.
 ```
 
@@ -224,3 +226,6 @@ Run it with `java -jar target/hikvision-download-assistant-1.0-SNAPSHOT-jar-with
 `Copyright (c) 2020 Ryan Richard`
 
 Licensed under MIT. See [LICENSE](LICENSE) file for license.
+
+The author of this software is not affiliated with Hikvision Digital Technology Co., the maker of Hikvision cameras, 
+and this software is not endorsed by Hikvision Digital Technology Co.

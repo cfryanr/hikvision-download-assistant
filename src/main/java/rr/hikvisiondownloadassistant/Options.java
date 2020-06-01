@@ -63,6 +63,12 @@ public class Options {
     private String outputPassword;
 
     @Option(
+            names = {"-u", "--output-username"},
+            description = "Output a different username in the printed curl commands, e.g. '$USERNAME'."
+    )
+    private String outputUsername;
+
+    @Option(
             names = {"-d", "--table-delimiter"},
             defaultValue = "|",
             description = "The column delimiter for table output. Defaults to '${DEFAULT-VALUE}'."

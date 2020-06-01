@@ -117,7 +117,7 @@ public class OutputFormatter {
             return String.join(" ", List.of(
                     "curl",
                     "-f",
-                    "--anyauth --user " + options.getUsername() + ":" + getOutputPassword(),
+                    "--anyauth --user " + getOutputUsername() + ":" + getOutputPassword(),
                     "-X GET",
                     "-d '<downloadRequest><playbackURI>" + getPlaybackURI().replace("&", "&amp;") + "</playbackURI></downloadRequest>'",
                     "'http://" + options.getHost() + "/ISAPI/ContentMgmt/download'",
@@ -129,10 +129,14 @@ public class OutputFormatter {
             return String.join(" ", List.of(
                     "curl",
                     "-f",
-                    "--anyauth --user " + options.getUsername() + ":" + getOutputPassword(),
+                    "--anyauth --user " + getOutputUsername() + ":" + getOutputPassword(),
                     "'" + getPlaybackURI() + "'",
                     "--output " + dateToLocalFilenameString(startTime) + "." + item.getMediaSegmentDescriptor().getCodecType()
             ));
+        }
+
+        private String getOutputUsername() {
+            return options.getOutputUsername() == null ? options.getUsername() : options.getOutputUsername();
         }
 
         private String getOutputPassword() {
