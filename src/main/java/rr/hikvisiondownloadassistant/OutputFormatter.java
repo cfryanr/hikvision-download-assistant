@@ -2,6 +2,8 @@
 
 package rr.hikvisiondownloadassistant;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -28,17 +30,42 @@ public class OutputFormatter {
     private final List<SearchMatchItem> photos;
 
     // TODO support outputting videos as a VLC playlist file for easy previewing?
-    // TODO support json output
+
     public void printResults() {
-        String tableColumnDelimiter = "|";
-        System.err.println("Type|Trigger|Start|End|Curl");
-        System.err.println("-----------------------------");
         List<OutputRow> rows = convertToOutputRows(MediaType.VIDEO, videos);
         rows.addAll(convertToOutputRows(MediaType.PHOTO, photos));
+
         rows.sort(Comparator.comparing(OutputRow::getStartTime));
-        rows.stream().map(OutputRow::toTextTableRow).forEach(row -> {
-            System.out.println(String.join(tableColumnDelimiter, row));
-        });
+
+        if (options.getOutputFormat().equals(Options.OutputFormat.table)) {
+            printTableOutput(rows);
+        } else {
+            printJsonOutput(rows);
+        }
+    }
+
+    private void printJsonOutput(List<OutputRow> rows) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(rows));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void printTableOutput(List<OutputRow> rows) {
+        String tableColumnDelimiter = options.getTableDelimiter();
+
+        if (!options.isQuiet()) {
+            String headers = String.join(tableColumnDelimiter, List.of("Type", "EventType", "Start", "End", "Curl"));
+            String underline = new String(new char[headers.length()]).replace("\0", "-");
+            System.err.println(headers);
+            System.err.println(underline);
+        }
+
+        rows.stream()
+                .map(OutputRow::toTextTableRow)
+                .forEach(row -> System.out.println(String.join(tableColumnDelimiter, row)));
     }
 
     private List<OutputRow> convertToOutputRows(MediaType mediaType, List<SearchMatchItem> items) {
@@ -71,16 +98,19 @@ public class OutputFormatter {
             );
         }
 
-        private String getEventType() {
-            return item.getMetadataMatches().getMetadataDescriptor().replace("recordType.meta.hikvision.com/", "").toUpperCase();
+        public String getCurlCommand() {
+            return mediaType == MediaType.PHOTO ? formatPhotoCurlCommand() : formatVideoCurlCommand();
+        }
+
+        public String getEventType() {
+            return item.getMetadataMatches()
+                    .getMetadataDescriptor()
+                    .replace("recordType.meta.hikvision.com/", "")
+                    .toUpperCase();
         }
 
         private String getPlaybackURI() {
             return item.getMediaSegmentDescriptor().getPlaybackURI();
-        }
-
-        public String getCurlCommand() {
-            return mediaType == MediaType.PHOTO ? formatPhotoCurlCommand() : formatVideoCurlCommand();
         }
 
         private String formatVideoCurlCommand() {
@@ -89,7 +119,7 @@ public class OutputFormatter {
                     "-f",
                     "-X GET",
                     "-d '<downloadRequest><playbackURI>" + getPlaybackURI().replace("&", "&amp;") + "</playbackURI></downloadRequest>'",
-                    "--anyauth --user " + options.getUsername() + ":" + options.getPassword(),
+                    "--anyauth --user " + options.getUsername() + ":" + getOutputPassword(),
                     "http://" + options.getHost() + "/ISAPI/ContentMgmt/download",
                     "--output " + dateToLocalFilenameString(startTime) + ".mp4"
             ));
@@ -99,10 +129,14 @@ public class OutputFormatter {
             return String.join(" ", List.of(
                     "curl",
                     "-f",
-                    "--anyauth --user " + options.getUsername() + ":" + options.getPassword(),
+                    "--anyauth --user " + options.getUsername() + ":" + getOutputPassword(),
                     "'" + getPlaybackURI() + "'",
                     "--output " + dateToLocalFilenameString(startTime) + "." + item.getMediaSegmentDescriptor().getCodecType()
             ));
+        }
+
+        private String getOutputPassword() {
+            return options.getOutputPassword() == null ? options.getPassword() : options.getOutputPassword();
         }
 
     }

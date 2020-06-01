@@ -11,6 +11,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -39,9 +40,13 @@ public class DigestAuth {
     }
 
     public String getAuthorizationHeaderValue() {
-        String authChallenge = unauthorizedResponseHeaders.firstValue("www-authenticate").get();
+        Optional<String> wwwAuthenticateHeader = unauthorizedResponseHeaders.firstValue("www-authenticate");
+        if (wwwAuthenticateHeader.isEmpty()) {
+            throw new RuntimeException("Expected digest auth challenge but did not find it");
+        }
+        String authChallenge = wwwAuthenticateHeader.get();
         if (!authChallenge.startsWith("Digest ")) {
-            throw new RuntimeException("expected digest auth challenge");
+            throw new RuntimeException("Expected digest auth challenge but did not find it");
         }
 
         String[] authenticateFields = authChallenge.substring("Digest ".length()).replace("\"", "").split(", ");
@@ -51,15 +56,15 @@ public class DigestAuth {
 
         String realm = authenticateFieldsMap.get("realm");
         if (realm == null) {
-            throw new RuntimeException("expected auth challenge to specify realm but it didn't");
+            throw new RuntimeException("Expected auth challenge to specify realm but it didn't");
         }
         String serverNonce = authenticateFieldsMap.get("nonce");
         if (serverNonce == null) {
-            throw new RuntimeException("expected auth challenge to specify nonce but it didn't");
+            throw new RuntimeException("Expected auth challenge to specify nonce but it didn't");
         }
         String qop = authenticateFieldsMap.get("qop");
         if (qop == null || !Arrays.asList(qop.split(",")).contains("auth")) {
-            throw new RuntimeException("expected auth challenge to allow qop=auth but it didn't");
+            throw new RuntimeException("Expected auth challenge to allow qop=auth but it didn't");
         }
 
         return getAuthorizationHeaderValue(realm, serverNonce);

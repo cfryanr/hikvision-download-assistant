@@ -2,8 +2,6 @@
 
 package rr.hikvisiondownloadassistant;
 
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.Getter;
@@ -90,7 +88,7 @@ public class IsapiRestClient {
         // See https://tools.ietf.org/html/rfc2617
         HttpResponse<String> unauthorizedResponse = doHttpRequestWithAuthHeader(requestMethod, requestPath, body, null);
         if (unauthorizedResponse.statusCode() != 401) {
-            throw new RuntimeException("expected to get a 401 digest auth challenge response but didn't");
+            throw new RuntimeException("Expected to get a 401 digest auth challenge response but didn't");
         }
 
         // Calculate the authorization digest value
@@ -99,8 +97,11 @@ public class IsapiRestClient {
 
         // Resend the request
         HttpResponse<String> response = doHttpRequestWithAuthHeader(requestMethod, requestPath, body, authorizationHeaderValue);
+        if (response.statusCode() == 401) {
+            throw new RuntimeException("Could not authenticate. Wrong username or password?");
+        }
         if (response.statusCode() != 200) {
-            throw new RuntimeException("expected to get successful response but got response code " + response.statusCode());
+            throw new RuntimeException("Expected to get successful response but got response code " + response.statusCode());
         }
 
         // Avoid a jackson parsing error where it doesn't like empty lists
