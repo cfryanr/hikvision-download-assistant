@@ -4,8 +4,6 @@ package rr.hikvisiondownloadassistant;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import rr.hikvisiondownloadassistant.Model.SearchMatchItem;
@@ -15,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static lombok.AccessLevel.PRIVATE;
 import static rr.hikvisiondownloadassistant.DateConverter.*;
 
 @RequiredArgsConstructor
@@ -78,10 +77,11 @@ public class OutputFormatter {
         ).collect(Collectors.toList());
     }
 
-    @Data
+    @Getter
+    @RequiredArgsConstructor
     private class OutputRow {
 
-        @Getter(value = AccessLevel.PRIVATE)
+        @Getter(value = PRIVATE)
         private final SearchMatchItem item;
 
         private final MediaType mediaType;

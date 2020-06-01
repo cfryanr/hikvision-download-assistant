@@ -4,7 +4,6 @@ package rr.hikvisiondownloadassistant;
 
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
-import lombok.AccessLevel;
 import lombok.Getter;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -12,6 +11,8 @@ import picocli.CommandLine.Parameters;
 
 import java.util.Date;
 import java.util.List;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @Command(
@@ -45,7 +46,7 @@ public class Options {
             defaultValue = "24 hours ago",
             description = "Search starting from this time, entered using English natural language. Defaults to '${DEFAULT-VALUE}'."
     )
-    @Getter(value = AccessLevel.PRIVATE)
+    @Getter(value = PRIVATE)
     private String fromTime;
 
     @Option(
@@ -53,7 +54,7 @@ public class Options {
             defaultValue = "now",
             description = "Search up to this time, entered using English natural language. Defaults to '${DEFAULT-VALUE}'."
     )
-    @Getter(value = AccessLevel.PRIVATE)
+    @Getter(value = PRIVATE)
     private String toTime;
 
     @Option(

@@ -5,7 +5,7 @@ package rr.hikvisiondownloadassistant;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -15,9 +15,9 @@ public class Model {
     public static final int VIDEOS_TRACK_ID = 101;
     public static final int PHOTOS_TRACK_ID = 103;
 
-    @Data
-    @NoArgsConstructor
+    @Getter
     @Builder
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class CMSearchDescription {
         @Builder.Default
@@ -39,7 +39,7 @@ public class Model {
         private List<TimeSpan> timeSpan;
     }
 
-    @Data
+    @Getter
     @NoArgsConstructor
     public static class CMSearchResult {
         private String version; // e.g. 2.0
@@ -50,7 +50,7 @@ public class Model {
         private List<SearchMatchItem> matchList;
     }
 
-    @Data
+    @Getter
     @NoArgsConstructor
     public static class SearchMatchItem {
         private String sourceID; // e.g. {0000000000-0000-0000-0000-000000000000}
@@ -60,16 +60,16 @@ public class Model {
         private Metadata metadataMatches;
     }
 
-    @Data
-    @NoArgsConstructor
+    @Getter
     @Builder
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class TimeSpan {
         private String startTime; // e.g. 2020-05-29T04:57:49Z
         private String endTime; // e.g. 2020-05-29T04:58:05Z
     }
 
-    @Data
+    @Getter
     @NoArgsConstructor
     public static class MediaSegmentDescriptor {
         private String contentType; // e.g. video or picture
@@ -81,9 +81,9 @@ public class Model {
         private String playbackURI;
     }
 
-    @Data
-    @NoArgsConstructor
+    @Getter
     @Builder
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Metadata {
         private String metadataDescriptor; // e.g. recordType.meta.hikvision.com/AllEvent

@@ -21,6 +21,7 @@ class Main {
             run(commandLineArguments);
         } catch (Exception e) {
             System.err.println("ERROR: " + e.getMessage());
+            System.exit(1);
         }
     }
 
