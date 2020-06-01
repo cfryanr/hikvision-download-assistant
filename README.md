@@ -166,9 +166,9 @@ Why, you ask? Several reasons!
 
 This application is written in Java, and therefore can run on pretty much any platform.
 
-You'll need a Java Runtime Environment on your computer.
+You'll need a Java Runtime Environment on your computer. It must be Java version 11 or higher.
 
-Good news, you probably already have one! Open your command terminal and type `java -version` to check.
+Good news, you might already have one! Open your command terminal and type `java -version` to check.
 
 Don't have one? You could install any JRE that you like, for example you could
 choose to install [OpenJDK](https://openjdk.java.net/install/index.html), 
