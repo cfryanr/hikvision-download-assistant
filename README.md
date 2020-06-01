@@ -15,7 +15,7 @@ All other helpful header and footer text is sent to `stderr` so it can be easily
 
 Run using `java -jar hikvision-download-assistant.jar <options>`.
 
-## Usage statement
+### Usage statement
 
 ```
 Usage: java -jar hikvision-download-assistant.jar [-hV] [-d=<tableDelimiter>] [-f=<fromTime>] [-o=<outputFormat>] [-p=<outputPassword>] [-t=<toTime>] HOST USERNAME PASSWORD
@@ -36,7 +36,7 @@ Usage: java -jar hikvision-download-assistant.jar [-hV] [-d=<tableDelimiter>] [-
   -V, --version            Print version information and exit.
 ```
 
-## Examples
+### Examples
 
 With default options:
 
@@ -90,7 +90,7 @@ Getting photos and videos from "Saturday May 30, 2020 at 7:43:52 PM PDT" to "Sun
 Found 2 videos and 2 photos
 ```
 
-## Unix/MacOS pipeline examples
+### Unix/MacOS pipeline examples
 
 Filtering and choosing a column using `jq`:
 
@@ -111,7 +111,7 @@ working directory (assuming `bash` is your shell):
 java -jar hikvision-download-assistant.jar 192.168.1.64 admin $PASSWORD --quiet | cut -d '|' -f 5 | while read curl_cmd; do eval $curl_cmd; done
 ```
 
-## Using `--from-time` and `--to-time`
+### Using `--from-time` and `--to-time`
 
 These options take English natural language and try their best to understand what you mean.
 
@@ -121,12 +121,12 @@ Examples:
 - `10 pm yesterday`
 - `noon yesterday`
 - `5 pm` - 5 pm today
+- `6:50 today` - caution, this is 6:50 AM, no matter what current time
+- `6:50 am today` or `6:50 pm today` - safer alternative so you don't get AM by accident
 - `last thursday` - at the current time of day, but different date
 - `1 week ago` - at the current time of day, but different date
+- `oct 3rd` - at the current time of day, but different date
 - `2/14/20 at 2 am`
-- `oct 3rd`
-- `6:50 today` - caution, this is 6:50 AM, no matter what current time
-- `6:50 am today` or `6:50 am today` - safer alternative so you don't get AM by accident
 - ...[and many more](http://natty.joestelmach.com/doc.jsp)
 
 It will not always guess correctly, so the first line of output will always print what it guessed so you can confirm.
@@ -160,7 +160,9 @@ Why, you ask? Several reasons!
   there were another tool to help you download videos and photos, then you wouldn't need to
   install any software from Hikvision. Well, now there is!
 
-## Prerequisites on your computer
+## Prerequisites
+
+### Prerequisites on your computer
 
 This application is written in Java, and therefore can run on pretty much any platform.
 
@@ -172,13 +174,7 @@ Don't have one? You could install any JRE that you like, for example you could
 choose to install [OpenJDK](https://openjdk.java.net/install/index.html), 
 e.g. `brew install openjdk` on a Mac.
 
-### Related tools (not required)
-
-- You might like to install [VLC](https://www.videolan.org/vlc/) to view
-  the downloaded videos, e.g. `brew cask install vlc` on a Mac.
-- You'll probably want [`curl`](https://ec.haxx.se), but you already have that.
-
-## Prerequisites on your Hikvision device(s)
+### Prerequisites on your Hikvision device(s)
 
 Note that this app uses digest authentication, which is the default setting on Hikvision cameras, so you do *not* need
 to enable basic authentication to use this app.
@@ -192,6 +188,12 @@ under System -> System Settings -> DST. Be sure to also change the DST start tim
 to match your local DST schedule.
 For the US you would check the `Enable DST box`, start on `Mar Second Sun 02`, end on `Nov First Sun 02`, 
 and set a bias of `60minutes`. Don't forget to click "Save".
+
+### Related tools (not required)
+
+- You might like to install [VLC](https://www.videolan.org/vlc/) to view
+  the downloaded videos, e.g. `brew cask install vlc` on a Mac.
+- You'll probably want [`curl`](https://ec.haxx.se), but you already have that.
 
 ## Compatible cameras and DVR/NVRs
 
