@@ -42,16 +42,15 @@ With default options:
 
 ```
 $ java -jar hikvision-download-assistant.jar 192.168.1.64 admin passsword123
-Getting photos and videos from "Saturday May 30, 2020 at 6:16:23 PM PDT" to "Sunday May 31, 2020 at 6:16:24 PM PDT"
+Getting photos and videos from "Saturday May 30, 2020 at 7:43:52 PM PDT" to "Sunday May 31, 2020 at 7:43:53 PM PDT"
 
 Type|EventType|Start|End|Curl
 -----------------------------
-VIDEO|ALLEVENT|2020-05-31T18:06:53-0700|2020-05-31T18:07:21-0700|curl -f -X GET -d '<downloadRequest><playbackURI>rtsp://192.168.1.64/Streaming/tracks/101/?starttime=20200601T010653Z&amp;endtime=20200601T010721Z&amp;name=ch01_00000000008000813&amp;size=9201388</playbackURI></downloadRequest>' --anyauth --user admin:password123 http://192.168.1.64/ISAPI/ContentMgmt/download --output 2020-05-31T18-06-53.mp4
-PHOTO|MOTION|2020-05-31T18:07:00-0700|2020-05-31T18:07:00-0700|curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200601T010700Z&endtime=20200601T010700Z&name=ch01_00000000005021001&size=597892' --output 2020-05-31T18-07-00.jpeg
-PHOTO|MOTION|2020-05-31T18:07:01-0700|2020-05-31T18:07:01-0700|curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200601T010701Z&endtime=20200601T010701Z&name=ch01_00000000005021101&size=595603' --output 2020-05-31T18-07-01.jpeg
-VIDEO|ALLEVENT|2020-05-31T18:08:19-0700|2020-05-31T18:08:39-0700|curl -f -X GET -d '<downloadRequest><playbackURI>rtsp://192.168.1.64/Streaming/tracks/101/?starttime=20200601T010819Z&amp;endtime=20200601T010839Z&amp;name=ch01_00000000008000913&amp;size=6802448</playbackURI></downloadRequest>' --anyauth --user admin:password123 http://192.168.1.64/ISAPI/ContentMgmt/download --output 2020-05-31T18-08-19.mp4
-PHOTO|MOTION|2020-05-31T18:08:22-0700|2020-05-31T18:08:22-0700|curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200601T010822Z&endtime=20200601T010822Z&name=ch01_00000000005022601&size=570118' --output 2020-05-31T18-08-22.jpeg
-PHOTO|MOTION|2020-05-31T18:08:23-0700|2020-05-31T18:08:23-0700|curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200601T010823Z&endtime=20200601T010823Z&name=ch01_00000000005022701&size=572475' --output 2020-05-31T18-08-23.jpeg
+VIDEO|ALLEVENT|2020-05-31T19:01:06-0700|2020-05-31T19:01:22-0700|curl -f --anyauth --user admin:password123 -X GET -d '<downloadRequest><playbackURI>rtsp://192.168.1.64/Streaming/tracks/101/?starttime=20200601T020106Z&amp;endtime=20200601T020122Z&amp;name=ch01_00000000008001213&amp;size=6836476</playbackURI></downloadRequest>' 'http://192.168.1.64/ISAPI/ContentMgmt/download' --output 2020-05-31T19-01-06.mp4
+PHOTO|MOTION|2020-05-31T19:01:09-0700|2020-05-31T19:01:09-0700|curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200601T020109Z&endtime=20200601T020109Z&name=ch01_00000000005030201&size=574906' --output 2020-05-31T19-01-09.jpeg
+PHOTO|MOTION|2020-05-31T19:01:10-0700|2020-05-31T19:01:10-0700|curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200601T020110Z&endtime=20200601T020110Z&name=ch01_00000000005030301&size=710770' --output 2020-05-31T19-01-10.jpeg
+VIDEO|ALLEVENT|2020-05-31T19:35:29-0700|2020-05-31T19:35:47-0700|curl -f --anyauth --user admin:password123 -X GET -d '<downloadRequest><playbackURI>rtsp://192.168.1.64/Streaming/tracks/101/?starttime=20200601T023529Z&amp;endtime=20200601T023547Z&amp;name=ch01_00000000008001313&amp;size=2933900</playbackURI></downloadRequest>' 'http://192.168.1.64/ISAPI/ContentMgmt/download' --output 2020-05-31T19-35-29.mp4
+PHOTO|MOTION|2020-05-31T19:35:34-0700|2020-05-31T19:35:34-0700|curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200601T023534Z&endtime=20200601T023534Z&name=ch01_00000000005031401&size=537158' --output 2020-05-31T19-35-34.jpeg
 
 Found 2 videos and 4 photos
 ```
@@ -60,32 +59,32 @@ With `--output json`:
 
 ```
 $ java -jar hikvision-download-assistant.jar 192.168.1.64 admin passsword123 --output json
-Getting photos and videos from "Saturday May 30, 2020 at 6:16:23 PM PDT" to "Sunday May 31, 2020 at 6:16:24 PM PDT"
+Getting photos and videos from "Saturday May 30, 2020 at 7:43:52 PM PDT" to "Sunday May 31, 2020 at 7:43:53 PM PDT"
 
 [ {
   "mediaType" : "VIDEO",
-  "startTime" : 1590973613000,
-  "endTime" : 1590973641000,
+  "startTime" : 1590976866000,
+  "endTime" : 1590976882000,
   "eventType" : "ALLEVENT",
-  "curlCommand" : "curl -f -X GET -d '<downloadRequest><playbackURI>rtsp://192.168.1.64/Streaming/tracks/101/?starttime=20200601T010653Z&amp;endtime=20200601T010721Z&amp;name=ch01_00000000008000813&amp;size=9201388</playbackURI></downloadRequest>' --anyauth --user admin:password123 http://192.168.1.64/ISAPI/ContentMgmt/download --output 2020-05-31T18-06-53.mp4"
+  "curlCommand" : "curl -f --anyauth --user admin:password123 -X GET -d '<downloadRequest><playbackURI>rtsp://192.168.1.64/Streaming/tracks/101/?starttime=20200601T020106Z&amp;endtime=20200601T020122Z&amp;name=ch01_00000000008001213&amp;size=6836476</playbackURI></downloadRequest>' 'http://192.168.1.64/ISAPI/ContentMgmt/download' --output 2020-05-31T19-01-06.mp4"
 }, {
   "mediaType" : "PHOTO",
-  "startTime" : 1590973621000,
-  "endTime" : 1590973621000,
+  "startTime" : 1590976869000,
+  "endTime" : 1590976869000,
   "eventType" : "MOTION",
-  "curlCommand" : "curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200601T010701Z&endtime=20200601T010701Z&name=ch01_00000000005021101&size=595603' --output 2020-05-31T18-07-01.jpeg"
+  "curlCommand" : "curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200601T020109Z&endtime=20200601T020109Z&name=ch01_00000000005030201&size=574906' --output 2020-05-31T19-01-09.jpeg"
 }, {
   "mediaType" : "VIDEO",
-  "startTime" : 1590973699000,
-  "endTime" : 1590973719000,
+  "startTime" : 1590978929000,
+  "endTime" : 1590978947000,
   "eventType" : "ALLEVENT",
-  "curlCommand" : "curl -f -X GET -d '<downloadRequest><playbackURI>rtsp://192.168.1.64/Streaming/tracks/101/?starttime=20200601T010819Z&amp;endtime=20200601T010839Z&amp;name=ch01_00000000008000913&amp;size=6802448</playbackURI></downloadRequest>' --anyauth --user admin:password123 http://192.168.1.64/ISAPI/ContentMgmt/download --output 2020-05-31T18-08-19.mp4"
+  "curlCommand" : "curl -f --anyauth --user admin:password123 -X GET -d '<downloadRequest><playbackURI>rtsp://192.168.1.64/Streaming/tracks/101/?starttime=20200601T023529Z&amp;endtime=20200601T023547Z&amp;name=ch01_00000000008001313&amp;size=2933900</playbackURI></downloadRequest>' 'http://192.168.1.64/ISAPI/ContentMgmt/download' --output 2020-05-31T19-35-29.mp4"
 }, {
   "mediaType" : "PHOTO",
-  "startTime" : 1590973703000,
-  "endTime" : 1590973703000,
+  "startTime" : 1590978934000,
+  "endTime" : 1590978934000,
   "eventType" : "MOTION",
-  "curlCommand" : "curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200601T010823Z&endtime=20200601T010823Z&name=ch01_00000000005022701&size=572475' --output 2020-05-31T18-08-23.jpeg"
+  "curlCommand" : "curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200601T023534Z&endtime=20200601T023534Z&name=ch01_00000000005031401&size=537158' --output 2020-05-31T19-35-34.jpeg"
 } ]
 
 Found 2 videos and 2 photos

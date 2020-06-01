@@ -117,10 +117,10 @@ public class OutputFormatter {
             return String.join(" ", List.of(
                     "curl",
                     "-f",
+                    "--anyauth --user " + options.getUsername() + ":" + getOutputPassword(),
                     "-X GET",
                     "-d '<downloadRequest><playbackURI>" + getPlaybackURI().replace("&", "&amp;") + "</playbackURI></downloadRequest>'",
-                    "--anyauth --user " + options.getUsername() + ":" + getOutputPassword(),
-                    "http://" + options.getHost() + "/ISAPI/ContentMgmt/download",
+                    "'http://" + options.getHost() + "/ISAPI/ContentMgmt/download'",
                     "--output " + dateToLocalFilenameString(startTime) + ".mp4"
             ));
         }
