@@ -209,6 +209,11 @@ it should theoretically work with those too.
 
 You mileage may vary. Github issues and PRs are welcome.
 
+## Downloading
+
+Download the latest release jar file from 
+https://github.com/cfryanr/hikvision-download-assistant/releases/latest
+
 ## Building
 
 If you would prefer to compile the source code yourself, you'll need to install a Java JDK, 
