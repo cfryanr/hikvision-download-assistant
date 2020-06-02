@@ -213,6 +213,13 @@ You mileage may vary. Github issues and PRs are welcome.
 
 Download the latest release jar file from 
 https://github.com/cfryanr/hikvision-download-assistant/releases/latest
+in your browser.
+
+Or download with `curl`:
+
+```bash
+curl -fLO https://github.com/cfryanr/hikvision-download-assistant/releases/download/v1.0.0/hikvision-download-assistant.jar
+```
 
 ## Building
 
