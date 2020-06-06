@@ -266,6 +266,12 @@ Or download with `curl`, assuming you're using `bash` as your shell and that wan
 cd /usr/local/bin && { curl -fLO https://github.com/cfryanr/hikvision-download-assistant/releases/download/v1.1.0/hikvision-download-assistant.jar; cd -; }
 ```
 
+If you would like to use `download_days.sh`, then download it to the same directory as the jar file:
+
+```bash
+cd /usr/local/bin && { curl -fLO https://raw.githubusercontent.com/cfryanr/hikvision-download-assistant/v1.1.0/download_days.sh; chmod 755 download_days.sh; cd -; }
+```
+
 ## Building
 
 If you would prefer to compile the source code yourself, you'll need to install a Java JDK, 
