@@ -263,7 +263,7 @@ in your browser.
 Or download with `curl`, assuming you're using `bash` as your shell and that want to keep the file in `/usr/local/bin`:
 
 ```bash
-cd /usr/local/bin && { curl -fLO https://github.com/cfryanr/hikvision-download-assistant/releases/download/v1.0.0/hikvision-download-assistant.jar; cd -; }
+cd /usr/local/bin && { curl -fLO https://github.com/cfryanr/hikvision-download-assistant/releases/download/v1.1.0/hikvision-download-assistant.jar; cd -; }
 ```
 
 ## Building
