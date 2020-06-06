@@ -17,7 +17,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Getter
 @Command(
         name = "java -jar hikvision-download-assistant.jar",
-        version = "1.0.0",
+        version = "1.1.0",
         mixinStandardHelpOptions = true,
         usageHelpAutoWidth = true
 )

@@ -4,6 +4,7 @@ package rr.hikvisiondownloadassistant;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import rr.hikvisiondownloadassistant.Model.SearchMatchItem;
@@ -24,11 +25,26 @@ public class OutputFormatter {
         VIDEO
     }
 
+    @Builder
+    @Getter
+    private static class Metadata {
+        private final String host;
+        private final String fromHumanReadableTime;
+        private final String toHumanReadableTime;
+        private final String fromTime;
+        private final String toTime;
+    }
+
+    @Builder
+    @Getter
+    private static class JsonOutput {
+        private final Metadata metadata;
+        private final List<OutputRow> results;
+    }
+
     private final Options options;
     private final List<SearchMatchItem> videos;
     private final List<SearchMatchItem> photos;
-
-    // TODO support outputting videos as a VLC playlist file for easy previewing?
 
     public void printResults() {
         List<OutputRow> rows = convertToOutputRows(MediaType.VIDEO, videos);
@@ -44,9 +60,19 @@ public class OutputFormatter {
     }
 
     private void printJsonOutput(List<OutputRow> rows) {
+        JsonOutput jsonOutput = JsonOutput.builder()
+                .results(rows)
+                .metadata(Metadata.builder()
+                        .host(options.getHost())
+                        .fromHumanReadableTime(dateToLocalHumanString(options.getFromDate()))
+                        .toHumanReadableTime(dateToLocalHumanString(options.getToDate()))
+                        .fromTime(dateToLocalFilenameString(options.getFromDate()))
+                        .toTime(dateToLocalFilenameString(options.getToDate()))
+                        .build())
+                .build();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(rows));
+            System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonOutput));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

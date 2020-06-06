@@ -61,33 +61,42 @@ With `--output json`:
 
 ```
 $ java -jar hikvision-download-assistant.jar 192.168.1.64 admin passsword123 --output json
-Getting photos and videos from "Saturday May 30, 2020 at 7:43:52 PM PDT" to "Sunday May 31, 2020 at 7:43:53 PM PDT"
+Getting photos and videos from "Friday Jun 5, 2020 at 12:14:53 PM PDT" to "Saturday Jun 6, 2020 at 12:14:54 PM PDT"
 
-[ {
-  "mediaType" : "VIDEO",
-  "startTime" : 1590976866000,
-  "endTime" : 1590976882000,
-  "eventType" : "ALLEVENT",
-  "curlCommand" : "curl -f --anyauth --user admin:password123 -X GET -d '<downloadRequest><playbackURI>rtsp://192.168.1.64/Streaming/tracks/101/?starttime=20200601T020106Z&amp;endtime=20200601T020122Z&amp;name=ch01_00000000008001213&amp;size=6836476</playbackURI></downloadRequest>' 'http://192.168.1.64/ISAPI/ContentMgmt/download' --output 2020-05-31T19-01-06.mp4"
-}, {
-  "mediaType" : "PHOTO",
-  "startTime" : 1590976869000,
-  "endTime" : 1590976869000,
-  "eventType" : "MOTION",
-  "curlCommand" : "curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200601T020109Z&endtime=20200601T020109Z&name=ch01_00000000005030201&size=574906' --output 2020-05-31T19-01-09.jpeg"
-}, {
-  "mediaType" : "VIDEO",
-  "startTime" : 1590978929000,
-  "endTime" : 1590978947000,
-  "eventType" : "ALLEVENT",
-  "curlCommand" : "curl -f --anyauth --user admin:password123 -X GET -d '<downloadRequest><playbackURI>rtsp://192.168.1.64/Streaming/tracks/101/?starttime=20200601T023529Z&amp;endtime=20200601T023547Z&amp;name=ch01_00000000008001313&amp;size=2933900</playbackURI></downloadRequest>' 'http://192.168.1.64/ISAPI/ContentMgmt/download' --output 2020-05-31T19-35-29.mp4"
-}, {
-  "mediaType" : "PHOTO",
-  "startTime" : 1590978934000,
-  "endTime" : 1590978934000,
-  "eventType" : "MOTION",
-  "curlCommand" : "curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200601T023534Z&endtime=20200601T023534Z&name=ch01_00000000005031401&size=537158' --output 2020-05-31T19-35-34.jpeg"
-} ]
+{
+  "metadata" : {
+    "host" : "192.168.1.64",
+    "fromHumanReadableTime" : "Friday Jun 5, 2020 at 12:14:57 PM PDT",
+    "toHumanReadableTime" : "Saturday Jun 6, 2020 at 12:14:57 PM PDT",
+    "fromTime" : "2020-06-05T12-14-57",
+    "toTime" : "2020-06-06T12-14-57"
+  },
+  "results" : [ {
+    "mediaType" : "VIDEO",
+    "startTime" : 1591456673000,
+    "endTime" : 1591456710000,
+    "eventType" : "ALLEVENT",
+    "curlCommand" : "curl -f --anyauth --user admin:password123 -X GET -d '<downloadRequest><playbackURI>rtsp://192.168.1.64/Streaming/tracks/101/?starttime=20200606T151753Z&amp;endtime=20200606T151830Z&amp;name=ch01_00000000021000213&amp;size=4938980</playbackURI></downloadRequest>' 'http://192.168.1.64/ISAPI/ContentMgmt/download' --output 2020-06-06T08-17-53.mp4"
+  }, {
+    "mediaType" : "PHOTO",
+    "startTime" : 1591456677000,
+    "endTime" : 1591456677000,
+    "eventType" : "MOTION",
+    "curlCommand" : "curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200606T151757Z&endtime=20200606T151757Z&name=ch01_00000000020004001&size=469186' --output 2020-06-06T08-17-57.jpeg"
+  }, {
+    "mediaType" : "VIDEO",
+    "startTime" : 1591456962000,
+    "endTime" : 1591456977000,
+    "eventType" : "ALLEVENT",
+    "curlCommand" : "curl -f --anyauth --user admin:password123 -X GET -d '<downloadRequest><playbackURI>rtsp://192.168.1.64/Streaming/tracks/101/?starttime=20200606T152242Z&amp;endtime=20200606T152257Z&amp;name=ch01_00000000021000713&amp;size=1814988</playbackURI></downloadRequest>' 'http://192.168.1.64/ISAPI/ContentMgmt/download' --output 2020-06-06T08-22-42.mp4"
+  }, {
+    "mediaType" : "PHOTO",
+    "startTime" : 1591456967000,
+    "endTime" : 1591456967000,
+    "eventType" : "MOTION",
+    "curlCommand" : "curl -f --anyauth --user admin:password123 'http://192.168.1.64/ISAPI/Streaming/tracks/103/?starttime=20200606T152247Z&endtime=20200606T152247Z&name=ch01_00000000020013201&size=404225' --output 2020-06-06T08-22-47.jpeg"
+  } ]
+}
 
 Found 2 videos and 2 photos
 ```
@@ -97,7 +106,7 @@ Found 2 videos and 2 photos
 Filtering and choosing a column using `jq`:
 
 ```
-java -jar hikvision-download-assistant.jar 192.168.1.64 admin $PASSWORD --quiet --output json | jq '.[] | select(.eventType=="MOTION") | .startTime'
+java -jar hikvision-download-assistant.jar 192.168.1.64 admin $PASSWORD --quiet --output json | jq '.results[] | select(.eventType=="MOTION") | .startTime'
 ```
 
 Filtering and choosing a column using `grep` and `cut`:
@@ -134,6 +143,22 @@ Examples:
 It will not always guess correctly, so the first line of output will always print what it guessed so you can confirm.
 
 Your `--to-time` can be a date/time in the future. This may be helpful if your camera's system time is wrong.
+
+### Other useful command-line tips for manipulating the downloaded photos and videos
+
+Make a playlist out of all the videos in the current directory, and then open it with VLC:
+
+```
+find $(pwd) -maxdepth 1 -name '*.mp4' | sort > playlist.m3u
+vlc --play-and-exit --no-video-title-show playlist.m3u
+```
+
+Convert all the video files in the current directory into a format that is playable by web browsers,
+assuming that you have `ffmpeg` installed:
+
+```
+for file in $(find $(pwd) -maxdepth 1 -name '*.mp4'); do ffmpeg -err_detect ignore_err -i "$file" -c copy $(dirname "$file")/$(basename "$file" .mp4).fixed.mp4; done
+```
 
 ## Why would I need this?
 
@@ -178,11 +203,14 @@ e.g. `brew install openjdk` on a Mac.
 
 ### Prerequisites on your Hikvision device(s)
 
+There are no prerequisites on your camera. Here are some helpful tips for configuring your camera.
+
 Note that this app uses digest authentication, which is the default setting on Hikvision cameras, so you do *not* need
-to enable basic authentication to use this app.
+to enable basic authentication to use this app. You also do *not* need to enable Hikvision-CGI to use this app.
 
 You'll want to make sure that your camera's system clock is correct. You can check this in the camera's web UI
-under System -> System Settings -> Time Settings.
+under System -> System Settings -> Time Settings. You'll probably also want to set the correct time zone on that
+same web page.
 
 You may wish to enable the Daylight Savings Time feature to avoid having your computer's
 time and your camera's time differ by one hour in the summer. This can be enabled in the camera's web UI
@@ -191,11 +219,22 @@ to match your local DST schedule.
 For the US you would check the `Enable DST box`, start on `Mar Second Sun 02`, end on `Nov First Sun 02`, 
 and set a bias of `60minutes`. Don't forget to click "Save".
 
+If you are formatting an sdcard in the Hikvision camera's web UI, you can choose the
+photo to video ratio for setting quotas on the same web page. These settings only apply during formatting, so be
+sure to set these to your preferred values before you format the sdcard.
+
+You may wish to set up [motion-activated recording](https://www.vueville.com/home-security/cctv/ip-cameras/hikvision-motion-detection-setup).
+
+You may also wish to set up [event-triggered photos](http://hikvision.com/UploadFile/File/2014331155115857.pdf)
+to automatically take a series of photos for every motion event, in addition to the video.
+
 ### Related tools (not required)
 
+- You'll probably want [`curl`](https://ec.haxx.se), but you already have that.
 - You might like to install [VLC](https://www.videolan.org/vlc/) to view
   the downloaded videos, e.g. `brew cask install vlc` on a Mac.
-- You'll probably want [`curl`](https://ec.haxx.se), but you already have that.
+- You might like `ffpeg` to convert the downloaded videos, 
+  e.g. `brew install ffmpeg` on a Mac.
 
 ## Compatible cameras and DVR/NVRs
 
@@ -209,16 +248,16 @@ it should theoretically work with those too.
 
 You mileage may vary. Github issues and PRs are welcome.
 
-## Downloading
+## Installing hikvision-download-assistant
 
 Download the latest release jar file from 
 https://github.com/cfryanr/hikvision-download-assistant/releases/latest
 in your browser.
 
-Or download with `curl`:
+Or download with `curl`, assuming you're using `bash` as your shell and that want to keep the file in `/usr/local/bin`:
 
 ```bash
-curl -fLO https://github.com/cfryanr/hikvision-download-assistant/releases/download/v1.0.0/hikvision-download-assistant.jar
+cd /usr/local/bin && { curl -fLO https://github.com/cfryanr/hikvision-download-assistant/releases/download/v1.0.0/hikvision-download-assistant.jar; cd -; }
 ```
 
 ## Building

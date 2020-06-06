@@ -3,6 +3,7 @@ target/
 !**/src/main/**
 !**/src/test/**
 /src/main/resources/cert.p12
+.DS_Store
 
 ### STS ###
 .apt_generated
