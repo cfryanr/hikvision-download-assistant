@@ -239,7 +239,7 @@ to automatically take a series of photos for every motion event, in addition to 
 - You'll probably want [`curl`](https://ec.haxx.se), but you already have that.
 - You might like to install [VLC](https://www.videolan.org/vlc/) to view
   the downloaded videos, e.g. `brew cask install vlc` on a Mac.
-- You might like `ffpeg` to convert the downloaded videos, 
+- You might like [`ffmpeg`](https://ffmpeg.org) to convert the downloaded videos, 
   e.g. `brew install ffmpeg` on a Mac.
 
 ## Compatible cameras and DVR/NVRs
