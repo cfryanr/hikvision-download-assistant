@@ -42,7 +42,7 @@ Usage: java -jar hikvision-download-assistant.jar [-hqV] [-d=<tableDelimiter>] [
 
 With default options:
 
-```
+```bash
 $ java -jar hikvision-download-assistant.jar 192.168.1.64 admin passsword123
 Getting photos and videos from "Saturday May 30, 2020 at 7:43:52 PM PDT" to "Sunday May 31, 2020 at 7:43:53 PM PDT"
 
@@ -59,7 +59,7 @@ Found 2 videos and 4 photos
 
 With `--output json`:
 
-```
+```bash
 $ java -jar hikvision-download-assistant.jar 192.168.1.64 admin passsword123 --output json
 Getting photos and videos from "Friday Jun 5, 2020 at 12:14:53 PM PDT" to "Saturday Jun 6, 2020 at 12:14:54 PM PDT"
 
@@ -105,20 +105,20 @@ Found 2 videos and 2 photos
 
 Filtering and choosing a column using `jq`:
 
-```
+```bash
 java -jar hikvision-download-assistant.jar 192.168.1.64 admin $PASSWORD --quiet --output json | jq '.results[] | select(.eventType=="MOTION") | .startTime'
 ```
 
 Filtering and choosing a column using `grep` and `cut`:
 
-```
+```bash
 java -jar hikvision-download-assistant.jar 192.168.1.64 admin $PASSWORD --quiet | grep MOTION | cut -d '|' -f 3
 ```
 
 Executing all of the returned curl commands to download all of the results to the current 
 working directory (assuming `bash` is your shell):
 
-```
+```bash
 java -jar hikvision-download-assistant.jar 192.168.1.64 admin $PASSWORD --quiet | cut -d '|' -f 5 | while read curl_cmd; do eval $curl_cmd; done
 ```
 
@@ -154,7 +154,7 @@ generates a simple web-based UI for browsing all of the downloaded photos and vi
 
 Make a playlist out of all the videos in the current directory, and then open it with VLC:
 
-```
+```bash
 find $(pwd) -maxdepth 1 -name '*.mp4' | sort > playlist.m3u
 vlc --play-and-exit --no-video-title-show playlist.m3u
 ```
@@ -162,7 +162,7 @@ vlc --play-and-exit --no-video-title-show playlist.m3u
 Convert all the video files in the current directory into a format that is playable by web browsers,
 assuming that you have `ffmpeg` installed:
 
-```
+```bash
 for file in $(find $(pwd) -maxdepth 1 -name '*.mp4'); do ffmpeg -err_detect ignore_err -i "$file" -c copy $(dirname "$file")/$(basename "$file" .mp4).fixed.mp4; done
 ```
 
