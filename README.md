@@ -144,11 +144,11 @@ It will not always guess correctly, so the first line of output will always prin
 
 Your `--to-time` can be a date/time in the future. This may be helpful if your camera's system time is wrong.
 
-### `download_days.sh`
+### The `download_days.sh` script
 
-[`download_days.sh`](download_days.sh) is an example of using this app. `download_days.sh` uses this app to download
-all of the photos and videos for the requested number of days and then generates a simple web-based UI for browsing
-all of the downloaded photos and videos.
+The [`download_days.sh`](download_days.sh) script is an example of using this app in a shell script.
+It downloads all of the photos and videos for the requested number of days and then 
+generates a simple web-based UI for browsing all of the downloaded photos and videos.
 
 ### Other useful command-line tips for manipulating the downloaded photos and videos
 
