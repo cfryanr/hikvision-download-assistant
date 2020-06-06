@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 #
+# Copyright (c) 2020 Ryan Richard
+#
 # An example of using hikvision-download-assistant to download
 # several days worth of videos and photos, organizing them into
 # directories per day, and presenting a simple UI for browsing
