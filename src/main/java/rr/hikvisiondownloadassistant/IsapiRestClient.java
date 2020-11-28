@@ -4,6 +4,7 @@ package rr.hikvisiondownloadassistant;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import rr.hikvisiondownloadassistant.Model.CMSearchDescription;
@@ -16,13 +17,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
-import static rr.hikvisiondownloadassistant.DateConverter.dateToApiString;
-import static rr.hikvisiondownloadassistant.Model.PHOTOS_TRACK_ID;
-import static rr.hikvisiondownloadassistant.Model.VIDEOS_TRACK_ID;
+import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
@@ -36,21 +33,13 @@ public class IsapiRestClient {
     private final String username;
     private final String password;
 
-    public List<SearchMatchItem> searchVideos(Date fromDate, Date toDate) throws IOException, InterruptedException {
-        return searchMedia(fromDate, toDate, VIDEOS_TRACK_ID);
-    }
-
-    public List<SearchMatchItem> searchPhotos(Date fromDate, Date toDate) throws IOException, InterruptedException {
-        return searchMedia(fromDate, toDate, PHOTOS_TRACK_ID);
-    }
-
-    private List<SearchMatchItem> searchMedia(Date fromDate, Date toDate, int trackId) throws IOException, InterruptedException {
+    public List<SearchMatchItem> searchMedia(String fromDate, String toDate, int trackId) throws IOException, InterruptedException {
         List<SearchMatchItem> allResults = new LinkedList<>();
         CMSearchResult searchResult;
         final int maxResults = 50;
         int searchResultPosition = 0;
 
-        do {
+        while (true) {
             searchResult = doHttpRequest(
                     POST,
                     "/ISAPI/ContentMgmt/search",
@@ -62,21 +51,31 @@ public class IsapiRestClient {
             if (matches != null) {
                 allResults.addAll(matches);
             }
-            searchResultPosition += maxResults;
-
-        } while (searchResult.isResponseStatus() && searchResult.getResponseStatusStrg().equalsIgnoreCase("more"));
+            if (searchResult.isResponseStatus() && searchResult.getResponseStatusStrg().equalsIgnoreCase("more")) {
+                if (searchResult.getVersion().equals("1.0")) {
+                    // XXX: version 1.0 seems does not support searchResultPosition well, we need update fromDate
+                    fromDate = matches.get(matches.size() - 1).getTimeSpan().getEndTime();
+                }
+                else {
+                    searchResultPosition += maxResults;
+                }
+                continue;
+            }
+            break;
+        };
 
         return allResults;
     }
 
-    private String getSearchRequestBodyXml(Date fromDate, Date toDate, int trackId, int searchResultPosition, int maxResults) throws JsonProcessingException {
+    private String getSearchRequestBodyXml(String fromDate, String toDate, int trackId, int searchResultPosition, int maxResults) throws JsonProcessingException {
         return xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(
                 CMSearchDescription.builder()
+                        .searchID(UUID.randomUUID().toString())
                         .maxResults(maxResults)
                         .searchResultPosition(searchResultPosition)
                         .timeSpan(List.of(TimeSpan.builder()
-                                .startTime(dateToApiString(fromDate))
-                                .endTime(dateToApiString(toDate))
+                                .startTime(fromDate)
+                                .endTime(toDate)
                                 .build()))
                         .trackID(List.of(trackId))
                         .build()

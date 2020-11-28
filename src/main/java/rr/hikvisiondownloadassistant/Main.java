@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.LogManager;
 
+import static rr.hikvisiondownloadassistant.DateConverter.dateToApiString;
 import static rr.hikvisiondownloadassistant.DateConverter.dateToLocalHumanString;
 
 class Main {
@@ -28,6 +29,8 @@ class Main {
     private static void run(String[] commandLineArguments) throws IOException, InterruptedException {
         Options options = parseCommandLineArguments(commandLineArguments);
 
+        DateConverter.setLegacyTimezoneMode(options.isLegacyTimeProcess());
+
         IsapiRestClient restClient = new IsapiRestClient(options.getHost(), options.getUsername(), options.getPassword());
         Date fromDate = options.getFromDate();
         Date toDate = options.getToDate();
@@ -39,18 +42,20 @@ class Main {
                     dateToLocalHumanString(toDate) + "\"\n");
         }
 
-        List<SearchMatchItem> videos = restClient.searchVideos(fromDate, toDate);
-        List<SearchMatchItem> photos = restClient.searchPhotos(fromDate, toDate);
+        String fromDateStr = dateToApiString(fromDate);
+        String toDateStr = dateToApiString(toDate);
 
-        if (photos.isEmpty() && videos.isEmpty() && !options.isQuiet()) {
-            System.err.println("No photos or videos within that time/date range found");
+        List<SearchMatchItem> results = restClient.searchMedia(fromDateStr, toDateStr, options.getChannelId());
+
+        if (results.isEmpty() && !options.isQuiet()) {
+            System.err.println("No files within that time/date range found");
             return;
         }
 
-        new OutputFormatter(options, videos, photos).printResults();
+        new OutputFormatter(options, results).printResults();
 
         if (!options.isQuiet()) {
-            System.err.println("\nFound " + videos.size() + " videos and " + photos.size() + " photos");
+            System.err.println("\nFound " + results.size() + " files");
         }
 
     }

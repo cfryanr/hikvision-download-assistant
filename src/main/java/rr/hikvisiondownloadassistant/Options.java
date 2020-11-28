@@ -42,6 +42,19 @@ public class Options {
     private String password;
 
     @Option(
+            names = {"-c", "--channel-id"},
+            defaultValue = "101",
+            description = "The channel id. Defaults to '${DEFAULT-VALUE}'."
+    )
+    private int channelId;
+
+    @Option(
+            names = {"-l", "--legacy"},
+            description = "Process timezone in legacy mode for some NVRs."
+    )
+    private boolean legacyTimeProcess = false;
+
+    @Option(
             names = {"-f", "--from-time"},
             defaultValue = "24 hours ago",
             description = "Search starting from this time, entered using English natural language. Defaults to '${DEFAULT-VALUE}'."

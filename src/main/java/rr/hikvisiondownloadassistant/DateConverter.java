@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class DateConverter {
+    private static boolean legacyMode = false;
+    private static TimeZone defaultTimezone;
 
     private static final SimpleDateFormat apiDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
     private static final SimpleDateFormat localDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
@@ -15,7 +17,18 @@ public class DateConverter {
     private static final SimpleDateFormat localHumanDateFormat = new SimpleDateFormat("EEEE MMM d, yyyy 'at' h:mm:ss aaa z");
 
     static {
+        defaultTimezone = apiDateFormat.getTimeZone();
         apiDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+    }
+
+    public static void setLegacyTimezoneMode(boolean legacy) {
+        legacyMode = legacy;
+        if (legacyMode) {
+            apiDateFormat.setTimeZone(defaultTimezone);
+        }
+        else {
+            apiDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        }
     }
 
     public static Date apiStringToDate(String timeString) {
