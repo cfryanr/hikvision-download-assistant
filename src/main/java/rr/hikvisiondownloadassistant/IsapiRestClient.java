@@ -21,6 +21,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import static rr.hikvisiondownloadassistant.DateConverter.apiStringToNextSecond;
+
 @Getter
 @RequiredArgsConstructor
 public class IsapiRestClient {
@@ -54,7 +56,7 @@ public class IsapiRestClient {
             if (searchResult.isResponseStatus() && searchResult.getResponseStatusStrg().equalsIgnoreCase("more")) {
                 if (searchResult.getVersion().equals("1.0")) {
                     // XXX: version 1.0 seems does not support searchResultPosition well, we need update fromDate
-                    fromDate = matches.get(matches.size() - 1).getTimeSpan().getEndTime();
+                    fromDate = apiStringToNextSecond(matches.get(matches.size() - 1).getTimeSpan().getEndTime());
                 }
                 else {
                     searchResultPosition += maxResults;

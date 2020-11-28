@@ -4,6 +4,9 @@ package rr.hikvisiondownloadassistant;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -35,6 +38,14 @@ public class DateConverter {
         try {
             return apiDateFormat.parse(timeString);
         } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String apiStringToNextSecond(String timeString) {
+        try {
+            return Instant.parse(timeString).plus(1, ChronoUnit.SECONDS).toString();
+        } catch (DateTimeParseException e) {
             throw new RuntimeException(e);
         }
     }
