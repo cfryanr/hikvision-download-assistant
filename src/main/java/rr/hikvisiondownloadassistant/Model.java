@@ -12,9 +12,6 @@ import java.util.List;
 
 public class Model {
 
-    public static final int VIDEOS_TRACK_ID = 101;
-    public static final int PHOTOS_TRACK_ID = 103;
-
     @Getter
     @Builder
     @NoArgsConstructor

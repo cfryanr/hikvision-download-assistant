@@ -25,6 +25,16 @@ public class OutputFormatter {
         VIDEO
     }
 
+    private MediaType mediaTypeFromContentType(String contentType) {
+        if (contentType.toLowerCase().equals("video")) {
+            return MediaType.VIDEO;
+        }
+        if (contentType.toLowerCase().equals("photo")) {
+            return MediaType.PHOTO;
+        }
+        throw new Error("Non-supported file contentType: " + contentType);
+    }
+
     @Builder
     @Getter
     private static class Metadata {
@@ -43,12 +53,10 @@ public class OutputFormatter {
     }
 
     private final Options options;
-    private final List<SearchMatchItem> videos;
-    private final List<SearchMatchItem> photos;
+    private final List<SearchMatchItem> results;
 
     public void printResults() {
-        List<OutputRow> rows = convertToOutputRows(MediaType.VIDEO, videos);
-        rows.addAll(convertToOutputRows(MediaType.PHOTO, photos));
+        List<OutputRow> rows = convertToOutputRows(results);
 
         rows.sort(Comparator.comparing(OutputRow::getStartTime));
 
@@ -93,10 +101,10 @@ public class OutputFormatter {
                 .forEach(row -> System.out.println(String.join(tableColumnDelimiter, row)));
     }
 
-    private List<OutputRow> convertToOutputRows(MediaType mediaType, List<SearchMatchItem> items) {
+    private List<OutputRow> convertToOutputRows(List<SearchMatchItem> items) {
         return items.stream().map(item -> new OutputRow(
                         item,
-                        mediaType,
+                        mediaTypeFromContentType(item.getMediaSegmentDescriptor().getContentType()),
                         apiStringToDate(item.getTimeSpan().getStartTime()),
                         apiStringToDate(item.getTimeSpan().getEndTime())
                 )

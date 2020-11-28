@@ -18,15 +18,18 @@ Run using `java -jar hikvision-download-assistant.jar <options>`.
 ### Usage statement
 
 ```
-Usage: java -jar hikvision-download-assistant.jar [-hqV] [-d=<tableDelimiter>] [-f=<fromTime>] [-o=<outputFormat>] [-p=<outputPassword>] [-t=<toTime>] [-u=<outputUsername>] HOST USERNAME PASSWORD
+Usage: java -jar hikvision-download-assistant.jar [-hlqV] [-c=<channelId>] [-d=<tableDelimiter>] [-f=<fromTime>] [-o=<outputFormat>] [-p=<outputPassword>] [-t=<toTime>] [-u=<outputUsername>] HOST USERNAME PASSWORD
       HOST                 Connect to this host or IP address to perform search.
       USERNAME             Use this username when connecting to perform search.
       PASSWORD             Use this password when connecting to perform search.
+  -c, --channel-id=<channelId>
+                           The channel id. Defaults to '101'.
   -d, --table-delimiter=<tableDelimiter>
                            The column delimiter for table output. Defaults to '|'.
   -f, --from-time=<fromTime>
                            Search starting from this time, entered using English natural language. Defaults to '24 hours ago'.
   -h, --help               Show this help message and exit.
+  -l, --legacy             The legacy mode for timezone process.
   -o, --output=<outputFormat>
                            Output format. Can be 'table' or 'json'. Defaults to 'table'.
   -p, --output-password=<outputPassword>

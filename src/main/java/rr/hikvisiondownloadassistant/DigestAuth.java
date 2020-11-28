@@ -51,7 +51,7 @@ public class DigestAuth {
 
         String[] authenticateFields = authChallenge.substring("Digest ".length()).replace("\"", "").split(", ");
         Map<String, String> authenticateFieldsMap = Arrays.stream(authenticateFields)
-                .map(s -> s.split("="))
+                .map(s -> s.split("=", 2))
                 .collect(Collectors.toMap(a -> a[0], a -> a[1]));
 
         String realm = authenticateFieldsMap.get("realm");
